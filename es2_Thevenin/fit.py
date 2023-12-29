@@ -23,9 +23,9 @@ ax2.set_xlabel('Resistenze R [ohm]')
 
 ##primo fit dei minimi quadrati
 
-def f1(R, V0): return V0/R
+def f1(R, V0, r): return V0/R
 
-popt1, pcov1 = curve_fit(f1, R, I, p0=(2.66), sigma=s_I, absolute_sigma=False)
+popt1, pcov1 = curve_fit(f1, R, I, p0=(4.96), sigma=s_I, absolute_sigma=False)
 
 print(popt1, np.sqrt(pcov1.diagonal()))
 
@@ -46,7 +46,7 @@ print(f'Controllo: {sum(mask)}', '\n')
 for i in range(5):
 
     s_eff1= np.sqrt(((popt1[0]/R**2)*s_R)**2 + s_I**2)
-    popt1, pcov1 = curve_fit(f1, R, I, p0=(2.66), sigma=s_eff1, absolute_sigma=False)
+    popt1, pcov1 = curve_fit(f1, R, I, p0=(4.96), sigma=s_eff1, absolute_sigma=False)
 
 
 k1_eff=sum(((I-f1(R, *popt1))/s_eff1)**2)
@@ -106,7 +106,7 @@ print(f'Controllo: {sum(mask)}', '\n')
 for i in range(5):
 
     s_eff2= np.sqrt(((popt2[0]/R**2)*s_R)**2 + s_I**2)
-    popt2, pcov2 = curve_fit(f2, R, I, p0=(2.66, 29.79), sigma=s_eff2, absolute_sigma=False)
+    popt2, pcov2 = curve_fit(f2, R, I, p0=(4.96, 29.79), sigma=s_eff2, absolute_sigma=False)
 
 
 k2_eff=sum(((I-f2(R, *popt2))/s_eff2)**2)
@@ -128,7 +128,7 @@ ax3.legend()
 ax4.legend()
 fig.align_ylabels((ax3, ax4))
 plt.show()
-plt.savefig(".")
+
 
 
 
