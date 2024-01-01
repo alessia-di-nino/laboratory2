@@ -18,18 +18,17 @@ frequency = 10.0  # Frequenza della forma d'onda in Hertz
 amplitude = 1.0  # Ampiezza della forma d'onda
 
 
-t = np.linspace(0, 2, 1000, endpoint=False) #studio in funzione del campionamento: variare il numero di divisioni dell'aarray
-
-num_terms = [1, 3, 5, 10, 50, 100, 500, 1000, 5000, 10000]
-
+num_term = 1000
+intervals = [10, 20, 50, 100, 500, 1000, 2500, 5000, 7500, 10000]
 
 fig, axs = plt.subplots(5, 2)
 
-for i, num_term in enumerate(num_terms):
-   
+for i, interval in enumerate(intervals):
+    t = np.linspace(0, 2, interval, endpoint=False)
+
     res = fourier_series_square(t, frequency, amplitude, num_term)
    
-    line, = axs[i%5, i//5].plot(t, res, label=f'n = {num_term}')
+    line, = axs[i%5, i//5].plot(t, res, label=f'x = {interval}')
     axs[i % 5, i // 5].legend(handles=[line], handlelength=0)
 
 
