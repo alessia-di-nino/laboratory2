@@ -18,7 +18,7 @@ frequency = 10.0  # Frequenza della forma d'onda in Hertz
 amplitude = 1.0  # Ampiezza della forma d'onda
 
 
-t = np.linspace(0, 2, 1000, endpoint=False) #studio in funzione del campionamento: variare il numero di divisioni dell'aarray
+t = np.linspace(0, 2, 1000, endpoint=False)
 
 num_terms = [1, 3, 5, 10, 50, 100, 500, 1000, 5000, 10000]
 
