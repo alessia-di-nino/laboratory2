@@ -36,3 +36,5 @@ plt.ylabel('Segnale simulato [u.a.]')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+#concludere la parte sull'onda quadra e copiare sulla triangolare usando i coefficienti dell'onda triangolare
