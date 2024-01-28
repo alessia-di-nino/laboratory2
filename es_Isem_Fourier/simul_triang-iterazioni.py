@@ -14,11 +14,11 @@ def fourier_series_triang(t, frequency, amplitude, num_terms):
     return result
 
 # Parametri della forma d'onda triangolare
-frequency = 10.0  # Frequenza della forma d'onda in Hertz
+frequency = 5.0  # Frequenza della forma d'onda in Hertz
 amplitude = 1.0  # Ampiezza della forma d'onda
 
 
-t = np.linspace(0, 2, 1000, endpoint=False) 
+t = np.linspace(-2, 2, 1000, endpoint=False) 
 
 num_terms = [1, 3, 5, 10, 50, 100]
 
@@ -32,6 +32,8 @@ for i, num_term in enumerate(num_terms):
     line, = axs[i%3, i//3].plot(t, res, label=f'n = {num_term}')
     axs[i % 3, i // 3].legend(handles=[line], handlelength=0)
 
+fig.supxlabel('Tempo [T]')
+fig.supylabel('Segnale simulato [u.a.]')
 
 plt.show()
 

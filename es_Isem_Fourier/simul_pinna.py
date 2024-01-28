@@ -1,7 +1,7 @@
 # 8 grafici simulazione integratore frequenze spaziate logaritmicamente tra le due frequenze di taglio
 #cut-off frequency = 1/2piRC
 #valutare l'accordo della ricostruzione con i dati presi
-
+  
 import numpy as np
 import pylab
 import math
