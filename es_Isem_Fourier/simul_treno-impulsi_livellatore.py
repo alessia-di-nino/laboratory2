@@ -4,16 +4,22 @@ import numpy as np
 
 
 fig = plt.figure()
-delta = np.full(1, 0.5)
-n = 10000
-x = np.linspace(-2/1000, 2/1000,2000)
-y = delta + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x)*np.sin((k*np.pi*delta)) for k in range(1, n, 1))
-y1 = delta + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x)*np.sin((k*np.pi*delta)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+delta = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+n = 1000
+xs = np.linspace(-2, 2, 1000)
 
-plt.plot(x,y)
-plt.plot(x,y1, color="red")
-plt.show()
+y = []
+y1 = []
 
+for x in xs:
+    y.append(delta + sum( [    (2/(k*np.pi)) * np.sin(k*np.pi*delta) * np.cos( 2*np.pi*k*x) for k in range(1, n, 1)    ]    )  )
+
+    y1.append(delta + sum( [ ((2/(k*np.pi)) * np.cos((k*2*np.pi*1000*x) + np.arctan(-((k*1000)/10))) * np.sin((k*np.pi*delta)))*(1/np.sqrt(1+((k*1000)/10)**2) ) for k in range(1, n, 1) ] ))
+
+
+
+
+'''
 ##Treno di impulsi dopo integratore
 import matplotlib.pyplot as plt
 import numpy as np
@@ -103,3 +109,4 @@ plt.plot(x55, y55, color="red")
 plt.xlabel('Time [s]', fontsize = "x-large")
 
 plt.show()
+'''
