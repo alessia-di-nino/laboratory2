@@ -4,7 +4,7 @@ import numpy as np
 
 
 fig = plt.figure()
-delta = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+delta = 0.5
 n = 1000
 xs = np.linspace(-2, 2, 1000)
 
@@ -17,7 +17,9 @@ for x in xs:
     y1.append(delta + sum( [ ((2/(k*np.pi)) * np.cos((k*2*np.pi*1000*x) + np.arctan(-((k*1000)/10))) * np.sin((k*np.pi*delta)))*(1/np.sqrt(1+((k*1000)/10)**2) ) for k in range(1, n, 1) ] ))
 
 
-
+plt.plot(xs,y)
+plt.plot(xs, y1, color = "red")
+plt.show()
 
 '''
 ##Treno di impulsi dopo integratore
