@@ -1,42 +1,4 @@
-##Treno di impulsi: formula in Fourier
-import matplotlib.pyplot as plt
-import numpy as np
-
-
-fig = plt.figure()
-delta = 0.5
-n = 1000
-xs = np.linspace(-2, 2, 1000)
-
-y = []
-y1 = []
-
-for x in xs:
-    y.append(delta + sum( [    (2/(k*np.pi)) * np.sin(k*np.pi*delta) * np.cos( 2*np.pi*k*x) for k in range(1, n, 1)    ]    )  )
-
-    y1.append(delta + sum( [ ((2/(k*np.pi)) * np.cos((k*2*np.pi*1000*x) + np.arctan(-((k*1000)/10))) * np.sin((k*np.pi*delta)))*(1/np.sqrt(1+((k*1000)/10)**2) ) for k in range(1, n, 1) ] ))
-
-
-plt.plot(xs,y)
-plt.plot(xs, y1, color = "red")
-plt.show()
-
-'''
-##Treno di impulsi dopo integratore
-import matplotlib.pyplot as plt
-import numpy as np
-
-
-fig = plt.figure()
-delta = np.full(1, 0.5)
-n = 10000
-x1 = np.linspace(-2/1000, 2/1000,2000)
-y1 = delta + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x)*np.sin((k*np.pi*delta)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
-
-plt.plot(x1,y1, color="red")
-plt.show()
-
-##6 grafici simulazione treno di impulsi duty cycle
+# 8 grafici simulazione integratore frequenze spaziate logaritmicamente tra le due frequenze di taglio
 import numpy as np
 import pylab
 import math
@@ -44,71 +6,104 @@ from math import exp
 from scipy.optimize import curve_fit
 from matplotlib import pyplot as plt
 
-delta = np.linspace(0.1, 0.9, 6)
-n = 100000
-
-delta0 = np.full(1, delta[0])
-x00 = np.linspace(-2/1000, 2/1000,5000)
-y0 = delta0 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x00)*np.sin((k*np.pi*delta0)) for k in range(1, n, 1))
-y00 = delta0 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x00)*np.sin((k*np.pi*delta0)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+f = np.logspace(math.log10(0.05), math.log10(1100), 8)
+n = 1000
+x1 = np.linspace(-2/f[1], 2/f[1], 5000)
+f1 = np.full(len(x1), f[1])
+y1 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f1)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f1*x1 + np.arctan(-(i*2*np.pi*f1)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
 
 
-delta1 = np.full(1, delta[1])
-x11 = np.linspace(-2/1000, 2/1000,2000)
-y1 = delta1 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x11)*np.sin((k*np.pi*delta1)) for k in range(1, n, 1))
-y11 = delta1 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x11)*np.sin((k*np.pi*delta1)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+x2 = np.linspace(-2/f[2], 2/f[2], 5000)
+f2 = np.full(len(x2), f[2])
+y2 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f2)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f2*x2 + np.arctan(-(i*2*np.pi*f2)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
 
 
-delta2 = np.full(1, delta[2])
-x22 = np.linspace(-2/1000, 2/1000,2000)
-y2 = delta2 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x22)*np.sin((k*np.pi*delta2)) for k in range(1, n, 1))
-y22 = delta2 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x22)*np.sin((k*np.pi*delta2)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+x3 = np.linspace(-2/f[3], 2/f[3], 5000)
+f3 = np.full(len(x3), f[3])
+y3 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f3)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f3*x3 + np.arctan(-(i*2*np.pi*f3)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
 
 
-delta3 = np.full(1, delta[3])
-x33 = np.linspace(-2/1000, 2/1000,2000)
-y3 = delta3 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x33)*np.sin((k*np.pi*delta3)) for k in range(1, n, 1))
-y33 = delta3 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x33)*np.sin((k*np.pi*delta3)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+x4 = np.linspace(-2/f[4], 2/f[4], 5000)
+f4 = np.full(len(x4), f[4])
+y4 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f4)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f4*x4 + np.arctan(-(i*2*np.pi*f4)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
 
 
-delta4 = np.full(1, delta[4])
-x44 = np.linspace(-2/1000, 2/1000,2000)
-y4 = delta4 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x44)*np.sin((k*np.pi*delta4)) for k in range(1, n, 1))
-y44 = delta4 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x44)*np.sin((k*np.pi*delta4)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+x5 = np.linspace(-2/f[5], 2/f[5], 5000)
+f5 = np.full(len(x4), f[5])
+y5 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f5)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f5*x5 + np.arctan(-(i*2*np.pi*f5)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
+
+
+x6 = np.linspace(-2/f[6], 2/f[6], 5000)
+f6 = np.full(len(x6), f[6])
+y6 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f6)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f6*x6 + np.arctan(-(i*2*np.pi*f6)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
+
+
+x7 = np.linspace(-2/f[7], 2/f[7], 5000)
+f7 = np.full(len(x7), f[7])
+y7 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f7)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f7*x7 + np.arctan(-(i*2*np.pi*f7)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
+
+
+x0 = np.linspace(-2/f[0], 2/f[0], 5000)
+f0 = np.full(len(x0), f[0])
+y0 = sum((2/(i*np.pi))*(1/np.sqrt(1+((i*2*np.pi*f0)/(1/(33000*4.7*10**(-6))))**2))*np.sin(i*2*np.pi*f0*x0 + np.arctan(-(i*2*np.pi*f0)/(1/(33000*4.7*10**(-6))))) for i in range(1, n, 2))
+
+plt.subplot(4, 2, 1)
+plt.plot(x0, y0, color="lightblue")
+plt.annotate("$f=0.05$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+
+
+plt.subplot(4, 2, 2)
+plt.plot(x1, y1, color="lightblue")
+plt.annotate("$f=0.2$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+
+plt.subplot(4, 2, 3)
+plt.plot(x2, y2, color="lightblue")
+plt.annotate("$f=0.8$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+plt.ylabel("[un. arb.]")
+
+plt.subplot(4, 2, 4)
+plt.plot(x3, y3, color="lightblue")
+plt.annotate("$f=3.6$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+
+
+plt.subplot(4, 2, 5)
+plt.plot(x4, y4, color="lightblue", label="frequenza")
+plt.annotate("$f=15.1$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+
+
+plt.subplot(4, 2, 6)
+plt.plot(x5, y5, color="lightblue")
+plt.annotate("$f=63.2$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
 
 
 
-delta5 = np.full(1, delta[5])
-x55 = np.linspace(-2/1000, 2/1000,2000)
-y5 = delta5 + sum((2/(k*np.pi))*np.cos(k*2*np.pi*1000*x55)*np.sin((k*np.pi*delta5)) for k in range(1, n, 1))
-y55 = delta5 + sum((2/(k*np.pi))*(1/np.sqrt(1+((k*1000)/10)**2))*np.cos(k*2*np.pi*1000*x55)*np.sin((k*np.pi*delta5)+np.arctan(-((k*1000)/10))) for k in range(1, n, 1))
+plt.subplot(4, 2, 7)
+plt.plot(x6, y6, color="lightblue")
+plt.annotate("$f=263$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+plt.xlabel('Time [s]')
 
-plt.subplot(3, 2, 1)
-plt.plot(x00, y0, color="lightblue")
-plt.plot(x00, y00, color="red")
+plt.subplot(4, 2, 8)
+plt.plot(x7, y7, color="lightblue")
+plt.annotate("$f=1100$ Hz", xy=(0.9, 0.3), xycoords='axes fraction',
+            size=8, ha='right', va='top',
+            bbox=dict(boxstyle='round', fc='w'))
+plt.xlabel('Time [s]')
 
-plt.subplot(3, 2, 2)
-plt.plot(x11, y1, color="lightblue")
-plt.plot(x11, y11, color="red")
 
-plt.subplot(3, 2, 3)
-plt.plot(x22, y2, color="lightblue")
-plt.plot(x22, y22, color="red")
-plt.ylabel("[un. arb.]", fontsize = "x-large")
 
-plt.subplot(3, 2, 4)
-plt.plot(x33, y3, color="lightblue")
-plt.plot(x33, y33, color="red")
-
-plt.subplot(3, 2, 5)
-plt.plot(x44, y4, color="lightblue")
-plt.plot(x44, y44, color="red")
-plt.xlabel('Time [s]', fontsize = "x-large")
-
-plt.subplot(3, 2, 6)
-plt.plot(x55, y5, color="lightblue")
-plt.plot(x55, y55, color="red")
-plt.xlabel('Time [s]', fontsize = "x-large")
-
+print(f)
 plt.show()
-'''
