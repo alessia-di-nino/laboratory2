@@ -1,29 +1,21 @@
-import numpy as np
+import librosa
+import librosa.display
 import matplotlib.pyplot as plt
-from pydub import AudioSegment
 
-# Load the MP3 file
-file_path = './es_Isem_Fourier/approfondimento/guitar/guitar_A2_very-long_forte_normal.mp3'
-try:
-    audio = AudioSegment.from_mp3(file_path)
-except FileNotFoundError:
-    print("File not found.")
+def plot_audio_waveform(audio_file):
+    # Load the audio file
+    y, sr = librosa.load(audio_file)
 
-# Convert the audio to raw data
-samples = np.array(audio.get_array_of_samples())
+    # Plot the waveform
+    plt.figure(figsize=(10, 4))
+    librosa.display.waveshow(y, sr=sr)
+    plt.xlabel("Time (seconds)")
+    plt.ylabel("Amplitude")
+    plt.title("Waveform of {}".format(audio_file))
+    plt.show()
 
-# Get the sample rate (frame rate) and duration
-frame_rate = audio.frame_rate
-duration = len(samples) / frame_rate
+# Example usage
+audio_file = "./es_Isem_Fourier/approfondimento/guitar/guitar_A2_very-long_forte_normal.mp3"  # Replace with your MP3 file
+plot_audio_waveform(audio_file)
 
-# Time axis for plotting
-time = np.linspace(0, duration, num=len(samples))
-
-# Plot the waveform
-plt.figure(figsize=(10, 4))
-plt.plot(time, samples, color='b')
-plt.xlabel('Time (s)')
-plt.ylabel('Amplitude')
-plt.title('Waveform of Sound')
-plt.grid()
 plt.show()
